@@ -1,0 +1,2 @@
+it takes 2 strings and 2 integers arrays as paramaters
+then sums lenghts of the strings and all the integers in arrays given as paramaters
