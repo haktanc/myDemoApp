@@ -19,17 +19,6 @@ import spark.template.mustache.MustacheTemplateEngine;
  */
 public class App 
 {
-    //public static void main( String[] args )
-    //{
-        //Integer[] array1 = {1, 2, 3};
-        //Integer[] array2 = {4, 5, 6};
-        //String str1 = "Hello";
-        //String str2 = "World";
-//
-        //int result = sum(str1, str2, array1, array2);
-        //System.out.println("Result: " + result);
-    //}
-
 
 public static void main(String[] args) {
         port(getHerokuAssignedPort());
@@ -37,30 +26,42 @@ public static void main(String[] args) {
         get("/", (req, res) -> "Hello, World");
 
         post("/compute", (req, res) -> {
-        String str1 = req.queryParams("str1");
-        String str2 = req.queryParams("str2");
+            //str1
+            String input1 = req.queryParams("input1");
+            //java.util.Scanner sc1 = new java.util.Scanner(input1);
 
-        String[] array1String = req.queryParamsValues("array1");
-        Integer[] array1 = null;
-        if (array1String != null) {
-        array1 = new Integer[array1String.length];
-        for (int i = 0; i < array1String.length; i++) {
-        array1[i] = Integer.parseInt(array1String[i]);
-        }
-        }
 
-        String[] array2String = req.queryParamsValues("array2");
-        Integer[] array2 = null;
-        if (array2String != null) {
-        array2 = new Integer[array2String.length];
-        for (int i = 0; i < array2String.length; i++) {
-        array2[i] = Integer.parseInt(array2String[i]);
-        }
-        }
+            //str2
+            String input2 = req.queryParams("input2");
+            //java.util.Scanner sc1 = new java.util.Scanner(input2);
 
-        int result = sum(str1, str2, array1, array2);
 
-        Map<String, Object> map = new HashMap<>();
+
+            //list1
+            String input3 = req.queryParams("input3");
+            java.util.Scanner sc1 = new java.util.Scanner(input3);
+            sc1.useDelimiter("[;\r\n]+");
+            java.util.ArrayList<Integer> inputList1 = new java.util.ArrayList<>();
+            while (sc1.hasNext())
+            {
+                int value = Integer.parseInt(sc1.next().replaceAll("\\s",""));
+                inputList1.add(value);
+            }
+
+            //list2
+            String input4 = req.queryParams("input4");
+            java.util.Scanner sc2 = new java.util.Scanner(input4);
+            sc1.useDelimiter("[;\r\n]+");
+            java.util.ArrayList<Integer> inputList2 = new java.util.ArrayList<>();
+            while (sc2.hasNext())
+            {
+                int value = Integer.parseInt(sc2.next().replaceAll("\\s",""));
+                inputList2.add(value);
+            }
+
+        int result = sum(input1, input2, inputList1, inputList2);
+
+        Map map = new HashMap();
         map.put("result", result);
         return new ModelAndView(map, "compute.mustache");
         }, new MustacheTemplateEngine());
@@ -82,7 +83,7 @@ static int getHerokuAssignedPort() {
 
 
 
-    public static int sum(String str1, String str2, Integer[] array1, Integer[] array2) {
+    public static int sum(String str1, String str2, ArrayList<Integer> array1, ArrayList<Integer> array2) {
         int sumOfLengths = str1.length() + str2.length();
 
         int sumArray1 = 0;
